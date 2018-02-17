@@ -1,0 +1,23 @@
+package main
+
+import (
+	"fmt"
+	"github.com/bitfinexcom/bitfinex-api-go/v1"
+)
+
+func main() {
+	client := bitfinex.NewClient().Auth("api-key", "api-secret")
+	info, err := client.Account.Info()
+
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(info)
+	}
+}
+func main() {
+	client := bitfinex.NewClient().Auth("api-key", "api-secret")
+}
+func main() {
+	client := bitfinex.NewClient().Auth("api-key", "api-secret")
+}
