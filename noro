@@ -1,0 +1,36 @@
+package main
+
+import (
+	"fmt"
+	"github.com/bitfinexcom/bitfinex-api-go/v1"
+)
+
+func main() {
+	client := bitfinex.NewClient().Auth("3M0QUpeIdAudNxcvKqbBnyUlSwyqzQOSToW0xSukqOs", "fm4sBy6sED0P8UHKWe0xrvFVYu53uRso9glF2vRQqEf")
+	info, err := client.Account.Info()
+
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(info)
+	}
+}
+strategy("Noro's Color Strategy v1.1", shorttitle = "Color str 1.1", overlay = true, default_qty_type = strategy.percent_of_equity, default_qty_value = 100.0, pyramiding = 0)
+
+bar = close > open ? 1 : close < open ? - 1 : 0
+
+//Trend
+trend = bar == 1 and bar[1] == 1 and bar[2] == 1 and bar[3] == 1 ? 1 : bar == -1 and bar[1] == -1 and bar[2] == -1 and bar[3] == -1 ? -1 : trend[1]
+col = trend == 1 ? lime : red
+bgcolor(col, transp = 80)
+
+//Signals
+min = min(close, open)
+max = max(close, open)
+up = trend == 1 and min < min[1] and bar == -1
+dn = trend == -1 and max > max[1] and bar == 1
+
+if up
+    strategy.entry("Long", strategy.long)
+
+if dn
